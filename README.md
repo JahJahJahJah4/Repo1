@@ -17,5 +17,8 @@ An event discovery app for exploring local events displayed on an interactive ma
 - iOS 17+
 - Swift 5.9+
 
+## GitHub Pages Demo
+A lightweight demo site is available in the `docs` directory. It uses [Leaflet](https://leafletjs.com/) with several sample Chicago bar venues. Open `docs/index.html` directly or enable GitHub Pages to view it online. After pushing to GitHub, the live page will be accessible at `https://<your-username>.github.io/Repo1/`.
+
 ## Contributors
 - Your Name
