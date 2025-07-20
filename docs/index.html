@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TempoTrails Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-u6yB9HSl9ty3fzcK+6nY5PZNRGL6XysI53tV0p8GTNI=" crossorigin=""/>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        #container { display: flex; flex-direction: row; height: 100vh; }
+        #list { width: 35%; overflow-y: auto; padding: 1rem; box-sizing: border-box; }
+        .card { border: 1px solid #ccc; border-radius: 4px; padding: 1rem; margin-bottom: 0.5rem; cursor: pointer; }
+        .card:hover { background-color: #f0f0f0; }
+        .card.active { background-color: #d0eaff; }
+        #map { flex: 1; }
+        html, body, #map { height: 100%; }
+    </style>
+</head>
+<body>
+<div id="container">
+    <div id="list"></div>
+    <div id="map"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-v0wY3Y0RlT430kzPc90DpygQb+FriO4pPoS1Q+D9BPg=" crossorigin=""></script>
+<script>
+    const venues = [
+        {name: 'Metro', address: '3730 N Clark St, Chicago, IL', lat: 41.9498, lng: -87.6581},
+        {name: 'Empty Bottle', address: '1035 N Western Ave, Chicago, IL', lat: 41.9003, lng: -87.6869},
+        {name: 'The Hideout', address: '1354 W Wabansia Ave, Chicago, IL', lat: 41.9136, lng: -87.6621},
+        {name: 'Green Mill', address: '4802 N Broadway, Chicago, IL', lat: 41.9709, lng: -87.6593},
+        {name: 'Gman Tavern', address: '3740 N Clark St, Chicago, IL', lat: 41.95, lng: -87.6570},
+        {name: 'Schubas Tavern', address: '3159 N Southport Ave, Chicago, IL', lat: 41.9391, lng: -87.6639},
+        {name: 'Sleeping Village', address: '3734 W Belmont Ave, Chicago, IL', lat: 41.9396, lng: -87.7237},
+        {name: "Martyrs'", address: '3855 N Lincoln Ave, Chicago, IL', lat: 41.9534, lng: -87.6769},
+        {name: 'The Vic Theatre', address: '3145 N Sheffield Ave, Chicago, IL', lat: 41.9399, lng: -87.6539},
+        {name: 'Reggies', address: '2109 S State St, Chicago, IL', lat: 41.8538, lng: -87.6278},
+        {name: 'The Owl', address: '2521 N Milwaukee Ave, Chicago, IL', lat: 41.9279, lng: -87.7028},
+        {name: 'Hide & Seek', address: '838 W Kinzie St, Chicago, IL', lat: 41.8892, lng: -87.6495},
+        {name: 'California Clipper', address: '1002 N California Ave, Chicago, IL', lat: 41.8989, lng: -87.6973},
+        {name: 'Kingston Mines', address: '2548 N Halsted St, Chicago, IL', lat: 41.9300, lng: -87.6490},
+        {name: 'Smartbar', address: '3730 N Clark St, Chicago, IL', lat: 41.9500, lng: -87.6580},
+    ];
+
+    const listEl = document.getElementById('list');
+    let map = L.map('map').setView([41.8781, -87.6298], 11);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    let marker, activeCard;
+
+    function showVenue(venue) {
+        if (marker) marker.remove();
+        marker = L.marker([venue.lat, venue.lng]).addTo(map).bindPopup(`<b>${venue.name}</b><br>${venue.address}`).openPopup();
+        map.setView([venue.lat, venue.lng], 13);
+    }
+
+    venues.forEach(v => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `<h3>${v.name}</h3><p>${v.address}</p>`;
+        card.addEventListener('click', () => {
+            showVenue(v);
+            if (activeCard) activeCard.classList.remove('active');
+            card.classList.add('active');
+            activeCard = card;
+        });
+        listEl.appendChild(card);
+    });
+
+    // Show first venue by default
+    showVenue(venues[0]);
+    const firstCard = listEl.firstElementChild;
+    if (firstCard) {
+        firstCard.classList.add("active");
+        activeCard = firstCard;
+    }
+</script>
+</body>
+</html>
