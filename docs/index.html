@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TempoTrails Events</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    h1 { color: #333; }
+    ul { list-style: none; padding: 0; }
+    li { margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Upcoming Events</h1>
+  <ul id="events"></ul>
+  <script>
+    fetch('events.json')
+      .then(response => response.json())
+      .then(data => {
+        data.sort((a, b) => new Date(a.date) - new Date(b.date));
+        const list = document.getElementById('events');
+        data.forEach(event => {
+          const item = document.createElement('li');
+          item.innerHTML = `<strong>${event.name}</strong> - ${new Date(event.date).toLocaleDateString()}<br>${event.address}`;
+          list.appendChild(item);
+        });
+      })
+      .catch(err => {
+        document.getElementById('events').textContent = 'Failed to load events.';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
