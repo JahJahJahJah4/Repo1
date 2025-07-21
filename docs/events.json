@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Concert",
+    "date": "2025-07-19T00:00:00Z",
+    "latitude": 41.9498,
+    "longitude": -87.6581,
+    "address": "Metro, Chicago"
+  },
+  {
+    "name": "Festival",
+    "date": "2025-07-20T00:00:00Z",
+    "latitude": 41.9003,
+    "longitude": -87.6869,
+    "address": "Empty Bottle, Chicago"
+  }
+]
